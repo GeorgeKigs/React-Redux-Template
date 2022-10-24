@@ -1,16 +1,20 @@
 import { useState, createContext } from "react";
 
-const User = createContext(null);
+export const UserProvider = createContext(null);
 
 const userContext = ({ children }) => {
-	const user = {};
-	const [userState, setUserCart] = useState(user);
+	const [Auth, setAuth] = userState({});
+	const [userState, setUserCart] = useState({});
 
 	const values = {
 		userState,
 		setUserCart,
+		Auth,
+		setAuth,
 	};
-	return <User.Provider value={values}>{children}</User.Provider>;
+	return (
+		<UserProvider.Provider value={values}>{children}</UserProvider.Provider>
+	);
 };
 
 export default userContext;
