@@ -1,11 +1,12 @@
-import react, { useContext, useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
-import { UserProvider } from "../context/user.context";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useContextHooks";
 
 const LOGIN_URL = "/user/login";
+
 const Login = (props) => {
-	const { setAuth } = useContext(UserProvider);
+	const { setAuth } = useAuth();
 	// define the input references
 	const userRef = useRef();
 	const pwdRef = useRef();
@@ -17,6 +18,11 @@ const Login = (props) => {
 	// set the state of error messages
 	const [errmsg, setError] = useState("");
 	const [success, setSuccess] = useState("");
+
+	// navigation links
+	const navigate = useNavigate();
+	const location = useLocation();
+	const from = location.state?.from?.pathname || "/";
 
 	useEffect(() => {
 		userRef.current.focus();
@@ -47,24 +53,23 @@ const Login = (props) => {
 			setSuccess(true);
 			setPwd("");
 			setUser("");
+
+			navigate(from, { replace: true });
 		} catch (error) {
 			console.log(error.message);
 			setError(error.message);
 		}
 	};
-	return <>{/* <LoginForm /> */}</>;
-};
-const LoginForm = ({ props }) => {
 	return (
 		<>
-			<form onSubmit={props.submitData}>
+			<form onSubmit={submitData}>
 				<div>
 					<label htmlFor="email">email: </label>
 					<input
 						type="email"
 						id="email"
 						ref={props.userRef}
-						onChange={(e) => props.setUser(e.target.value)}
+						onChange={(e) => setUser(e.target.value)}
 						required
 						autoComplete="off"
 					/>
@@ -75,7 +80,7 @@ const LoginForm = ({ props }) => {
 						type="password"
 						id="password"
 						ref={props.pwdRef}
-						onChange={(e) => props.setUser(e.target.value)}
+						onChange={(e) => setUser(e.target.value)}
 						required
 						autoComplete="off"
 					/>
@@ -87,8 +92,8 @@ const LoginForm = ({ props }) => {
 			</form>
 		</>
 	);
-	// Oath section)
 };
+
 Login.propTypes = {};
 
 export default Login;

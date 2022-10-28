@@ -1,10 +1,11 @@
-import react, { useContext, useEffect, useState, useRef } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import axios from "../utils/apiRequests";
 
 const REGISTRATION_URL = "/users/register";
-const Registration = (props) => {
+
+const Registration = () => {
 	// define the input references
 	const userRef = useRef();
 	const pwdRef = useRef();

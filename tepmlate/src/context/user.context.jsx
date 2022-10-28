@@ -3,13 +3,13 @@ import { useState, createContext } from "react";
 export const UserProvider = createContext(null);
 
 const userContext = ({ children }) => {
-	const [Auth, setAuth] = userState({});
+	const [auth, setAuth] = useState({});
 	const [userState, setUserCart] = useState({});
 
 	const values = {
 		userState,
 		setUserCart,
-		Auth,
+		auth,
 		setAuth,
 	};
 	return (
